@@ -1,0 +1,3 @@
+[submodule "CoverageAgent"]
+	path = CoverageAgent
+	url = https://github.com/sslab-gatech/AndroidCoverageAgent.git

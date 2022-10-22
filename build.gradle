@@ -1,0 +1,47 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.32'
+    id 'application'
+}
+
+group = 'com.ammaraskar'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.skylot:jadx-core:1.4.3'
+    implementation 'io.github.skylot:jadx-dex-input:1.4.3'
+    implementation 'io.github.skylot:jadx-smali-input:1.4.3'
+    implementation 'org.slf4j:slf4j-simple:2.0.3'
+
+    implementation 'com.github.ajalt.clikt:clikt:3.5.0'
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-test:1.5.32'
+}
+
+test {
+    useJUnit()
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// We need the compiled native libraries to run this tool.
+compileKotlin.dependsOn(gradle.includedBuild('CoverageAgent').task(':runtime_cpp:assemble'))
+
+
+application {
+    getMainClass().set('com.ammaraskar.intent.fuzz.MainKt')
+}
+
